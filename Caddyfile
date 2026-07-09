@@ -6,4 +6,5 @@
 :8080
 
 root /www
+reverse_proxy /dc/* cantons-challenge.railway.internal:8000
 file_server
