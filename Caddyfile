@@ -4,11 +4,20 @@
 
 # Remember, Railway terminates TLS before it gets to Caddy.
 
-api.housetrap.ch:8080 {
-    reverse_proxy /dc/* cantons-challenge-api.railway.internal:8000
+:8080 {
+    root /www
+    file_server
+
+    @api_dc {
+        host api.aperoescape.ch
+        path /dc/*
+    }
+
+    reverse_proxy @api_dc cantons-challenge-api.railway.internal:8000
     rate_limit {
         zone votes {
             match {
+                host api.aperoescape.ch
                 path /dc/v1/vote
             }
             key {remote_host}
@@ -19,7 +28,3 @@ api.housetrap.ch:8080 {
     }
 }
 
-:8080 {
-    root /www
-    file_server
-}
