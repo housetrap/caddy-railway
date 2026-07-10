@@ -3,8 +3,18 @@
 # Edit this file according to your needs.
 
 # Remember, Railway terminates TLS before it gets to Caddy.
-:8080
 
-root /www
-reverse_proxy /dc/* cantons-challenge.railway.internal:8000
-file_server
+api.housetrap.ch:8080 {
+    reverse_proxy /dc/* cantons-challenge-api.railway.internal:8000
+    rate_limit {
+        zone votes {
+            match {
+                path /dc/v1/vote
+            }
+            key: {remote_host}
+            events: 100
+            window: 1m
+        }
+        jitter 0.1
+    }
+}
