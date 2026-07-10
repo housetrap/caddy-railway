@@ -1,0 +1,12 @@
+# For local testing only
+
+services:
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CADDY_PLUGINS: github.com/mholt/caddy-ratelimit
+
+    ports:
+      - "8080:8080"
