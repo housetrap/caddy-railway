@@ -18,3 +18,8 @@ api.housetrap.ch:8080 {
         jitter 0.1
     }
 }
+
+:8080 {
+    root /www
+    fileserver
+}
