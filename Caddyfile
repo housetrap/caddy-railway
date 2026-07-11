@@ -13,7 +13,13 @@
         path /dc/*
     }
 
+    @collector {
+        host dc.aperoescape.ch
+    }
+
     reverse_proxy @api_dc cantons-challenge-api.railway.internal:8000
+    reverse_proxy @collector cantons-challenge-collector.railway.internal:8000
+    
     rate_limit {
         zone votes {
             match {
