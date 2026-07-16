@@ -17,8 +17,12 @@
         host dc.aperoescape.ch
     }
 
-    reverse_proxy @api_dc cantons-challenge-api.railway.internal:8000
-    reverse_proxy @collector cantons-challenge-collector.railway.internal:8000
+    reverse_proxy @api_dc cantons-challenge-api.railway.internal:8000 {
+        header_up X-Forwarded-Proto {scheme}
+    }
+    reverse_proxy @collector cantons-challenge-collector.railway.internal:8000 {
+        header_up X-Forwarded-Proto {scheme}
+    }
     
     rate_limit {
         zone votes {
