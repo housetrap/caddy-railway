@@ -18,12 +18,15 @@
     }
 
     reverse_proxy @api_dc cantons-challenge-api.railway.internal:8000 {
-        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Proto https
+        header_up X-Forwarded-Host {host}
+        header_up X-Forwarded-Port 443
     }
     reverse_proxy @collector cantons-challenge-collector.railway.internal:8000 {
-        header_up X-Forwarded-Proto {scheme}
-    }
-    
+        header_up X-Forwarded-Proto https
+        header_up X-Forwarded-Host {host}
+        header_up X-Forwarded-Port 443
+    }    
     rate_limit {
         zone votes {
             match {
